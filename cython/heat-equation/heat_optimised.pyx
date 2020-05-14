@@ -1,22 +1,27 @@
 import numpy as np
+cimport numpy as cnp
+import cython
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-from _my_evolve import lib
 
 # Set the colormap
 plt.rcParams['image.cmap'] = 'BrBG'
 
 
-def evolve(u, u_previous, a, dt, dx2, dy2):
+@cython.boundscheck(False)
+@cython.wraparound(False)
+cdef evolve(cnp.ndarray[cnp.double_t, ndim=2] u, cnp.ndarray[cnp.double_t, ndim=2] u_previous, float a, float dt, float dx2, float dy2):
     """Explicit time evolution.
        u:            new temperature field
        u_previous:   previous field
        a:            diffusion constant
        dt:           time step. """
 
-    n, m = u.shape
+    cdef int n = u.shape[0]
+    cdef int m = u.shape[1]
 
+    cdef int i, j
     for i in range(1, n - 1):
         for j in range(1, m - 1):
             u[i, j] = u_previous[i, j] + a * dt * (
@@ -45,6 +50,8 @@ def iterate(field, field0, a, dx, dy, timesteps, image_interval):
 
 def init_fields(filename):
     # Read the initial temperature field from file
+    # cdef cnp.ndarray[cnp.float_t, ndim = 2] field, field0
+
     field = np.loadtxt(filename)
     field0 = field.copy()  # Array for field of previous time step
     return field, field0

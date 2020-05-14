@@ -130,3 +130,37 @@ arr[:, 1] += 2.5
 np.savetxt('/Users/claudionovellarausell/hpc-python/numpy/input-output/new_xy-coordinates.dat', new_arr)
 
 # EXERCISE 8: RANDOM NUMBERS
+
+print("\n########## 8 ##########\n")
+
+arr_uni = np.random.random(10000)
+
+plt.hist(arr_uni)
+plt.text(0.5, 1000, "Mean: {}\n Std: {}\n".format(np.mean(arr_uni), np.std(arr_uni)))
+plt.show()
+
+arr_norm = np.random.normal(size=10000)
+
+plt.hist(arr_norm)
+plt.text(0.5, 1000, "Mean: {}\n Std: {}\n".format(np.mean(arr_norm), np.std(arr_norm)))
+plt.show()
+
+# EXERCISE 9: LINEAR ALGEBRA
+
+print("\n########## 9.1 ##########\n")
+
+A = np.random.random((2, 2))
+Asym = A + A.transpose()
+B = np.random.random((2, 2))
+Bsym = B + B.transpose()
+print(Asym, Bsym)
+
+print("\n########## 9.2 ##########\n")
+
+C = np.dot(A, B)
+print(C)
+
+print("\n########## 9.3 ##########\n")
+
+eigenval = np.linalg.eigvals(C)
+print(eigenval)
