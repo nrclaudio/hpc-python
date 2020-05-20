@@ -2,7 +2,7 @@ from mpi4py import MPI
 import numpy
 
 comm = MPI.COMM_WORLD
-rank = comm.Get_rank()
+rank = comm.Get_rank()s
 
 # Simple message exchange
 meta = {'rank': rank}
@@ -27,4 +27,3 @@ elif rank == 1:
     comm.Recv(buff, source=0)
     comm.Send(data, dest=0)
 print("Rank %d received an array filled with %ds." % (rank, buff[0]))
-
